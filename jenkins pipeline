@@ -1,0 +1,10 @@
+pipeline {
+    agent any
+    stages {
+        stage('Run Ansible Playbook') {
+            steps {
+                sh 'ansible-playbook /etc/ansible/industryapp.yml -i /etc/ansible/hosts -f 5 --connection=local'
+            }
+        }
+    }
+}

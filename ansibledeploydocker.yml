@@ -1,0 +1,24 @@
+---
+- name: Deploy Code to Docker Container
+  hosts: localhost
+  tasks:
+    - name: Clone code repository
+      git:
+        repo: https://github.com/sahunirmal/Industry_grade_project_I.git
+        dest: /tmp/industryapp
+        version: master
+
+    - name: Build code
+      shell: |
+        cd /tmp/industryapp
+        mvn clean package
+
+    - name: Deploy code to Docker container
+      docker_container:
+        name: mycontainer
+        image: nirmalendusahu/industryapp:15
+        state: started
+        volumes:
+          - /tmp/industryapp:/app
+        ports:
+          - "8989:8080"

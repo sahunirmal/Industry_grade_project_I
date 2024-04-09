@@ -1,0 +1,13 @@
+- hosts: localhost
+  become: true
+  tasks:
+    - name: Deploy Kubernetes Service
+      k8s:
+        state: present
+        namespace: default
+        src: /home/ubuntu/industryappservice.yml
+    - name: Deploy Kubernetes Deployment
+      k8s:
+        state: present
+        namespace: default
+        src: /home/ubuntu/industryappdeployment.yml

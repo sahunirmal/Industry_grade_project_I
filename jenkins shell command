@@ -1,0 +1,17 @@
+sudo su -
+cd /root/
+rm -rf warfile
+mkdir warfile
+cd warfile
+cp /var/lib/jenkins/workspace/4.package/target/ABCtechnologies-1.0.war .
+touch Dockerfile
+cat <<EOT>> Dockerfile
+FROM tomcat:latest
+ADD ABCtechnologies-1.0.war /usr/local/tomcat/webapps
+EXPOSE 8080
+CMD ["catalina.sh", "run"]
+EOT
+docker build -t industryapp:$BUILD_NUMBER .
+docker tag industryapp:$BUILD_NUMBER nirmalendusahu/industryapp:$BUILD_NUMBER
+docker push nirmalendusahu/industryapp:$BUILD_NUMBER
+docker run -d -p 8989:8080 nirmalendusahu/industryapp:$BUILD_NUMBER
